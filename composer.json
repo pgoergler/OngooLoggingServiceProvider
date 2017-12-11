@@ -14,8 +14,8 @@
     ],
     "require": {
         "php": ">=7.1",
-        "ongoo/logging": "1.*",
-        "pimple/pimple": "3.*"
+        "pimple/pimple": "3.*",
+        "ongoo/logging": "1.*"
     },
     "autoload": {
         "psr-0": {
