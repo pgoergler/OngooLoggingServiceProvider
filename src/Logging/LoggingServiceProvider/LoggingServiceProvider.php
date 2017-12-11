@@ -40,7 +40,7 @@ class LoggingServiceProvider implements ServiceProviderInterface
         }
     }
 
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['logger.factory'] = function() use(&$app)
         {
