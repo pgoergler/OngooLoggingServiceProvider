@@ -1,5 +1,5 @@
 {
-    "name": "logging/logging-service-provider",
+    "name": "ongoo/logging-service-provider",
     "type": "library",
     "description": "Logging Service Provider for Silex",
     "keywords": ["silex", "logging"],
