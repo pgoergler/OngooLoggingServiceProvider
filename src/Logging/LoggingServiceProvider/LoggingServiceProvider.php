@@ -3,6 +3,8 @@
 namespace Logging\LoggingServiceProvider;
 
 use Pimple\Container,
+    Silex\Application,
+    Silex\Api\BootableProviderInterface,
     Pimple\ServiceProviderInterface;
 
 /**
@@ -10,10 +12,10 @@ use Pimple\Container,
  *
  * @author paul
  */
-class LoggingServiceProvider implements ServiceProviderInterface
+class LoggingServiceProvider implements BootableProviderInterface, ServiceProviderInterface
 {
 
-    public function boot(Container $app)
+    public function boot(Application $app)
     {
         if ($app->offsetExists('logger.directory'))
         {
@@ -87,7 +89,7 @@ class LoggingServiceProvider implements ServiceProviderInterface
             }
             if( $app->offsetExists('logging.previous_exception_handler') ) {
                 try {
-                    call_user_func($app['logging.previous_exception_handler'], $e, $code);
+                    call_user_func($app['logging.previous_exception_handler'], $e, $code, $request);
                 } catch (\Exception $handlerException) {
                 } catch (\Throwable $handlerException) {
                 }
@@ -97,9 +99,9 @@ class LoggingServiceProvider implements ServiceProviderInterface
             $app['logger']->error($e);
         });
 
-        $app->error(function ($e, $code) use(&$app)
+        $app->error(function ($e, $request, $code) use(&$app)
         {
-            $app['logger.exception_handler']($e, $code);
+            $app['logger.exception_handler']($e, $code, $request);
         });
 
         $app['logger.interpolate'] = $app->protect(function($message, $context = array()) use(&$app)
